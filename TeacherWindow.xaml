@@ -1,0 +1,141 @@
+<Window x:Class="QuanLyHocSinh.TeacherWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Giáo viên" Height="700" Width="1150"
+        WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Window.Resources>
+        <Style x:Key="ActionBtn" TargetType="Button">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="Margin" Value="0,0,6,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style x:Key="DangerBtn" TargetType="Button" BasedOn="{StaticResource ActionBtn}">
+            <Setter Property="Background" Value="#c62828"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style x:Key="PrimaryBtn" TargetType="Button" BasedOn="{StaticResource ActionBtn}">
+            <Setter Property="Background" Value="#1a237e"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style x:Key="GradeBtn" TargetType="Button" BasedOn="{StaticResource ActionBtn}">
+            <Setter Property="Background" Value="#e65100"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top bar -->
+        <Border Grid.Row="0" Background="#2e7d32">
+            <DockPanel Margin="16,0">
+                <TextBlock Text="🏫 Quản lý Học sinh – Giáo viên" Foreground="White"
+                           FontSize="15" FontWeight="Bold" VerticalAlignment="Center"/>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="🔑 Đổi mật khẩu" Style="{StaticResource ActionBtn}"
+                            Background="#388e3c" Foreground="White" Click="ChangePassword_Click"/>
+                    <Button Content="Đăng xuất" Style="{StaticResource DangerBtn}" Click="Logout_Click"/>
+                    <TextBlock x:Name="InfoText" Foreground="#c8e6c9" VerticalAlignment="Center" Margin="16,0,0,0" TextAlignment="Right"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <TabControl Grid.Row="1" Margin="8">
+
+            <!-- ══ Tab 1: Phân công & Nhập điểm ══ -->
+            <TabItem Header="📋 Phân công của tôi" Loaded="AssignTab_Loaded">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8">
+                        <Button Content="🔄 Tải lại" Style="{StaticResource ActionBtn}" Click="LoadAssign_Click"/>
+                        <Button Content="📝 Nhập điểm cho lớp này" Style="{StaticResource GradeBtn}"
+                                Click="GoGradeEntry_Click"/>
+                    </StackPanel>
+
+                    <DataGrid x:Name="AssignGrid" Grid.Row="1" AutoGenerateColumns="False"
+                              IsReadOnly="True" CanUserAddRows="False" SelectionMode="Single"
+                              AlternatingRowBackground="#f1f8e9">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Lớp" Binding="{Binding TenLop}" Width="100"/>
+                            <DataGridTextColumn Header="Khối" Binding="{Binding Khoi}" Width="55"/>
+                            <DataGridTextColumn Header="Môn học" Binding="{Binding TenMH}" Width="180"/>
+                            <DataGridTextColumn Header="Năm học" Binding="{Binding NamHoc}" Width="100"/>
+                            <DataGridTextColumn Header="Học kỳ" Binding="{Binding HocKy}" Width="60"/>
+                            <DataGridCheckBoxColumn Header="Chủ nhiệm" Binding="{Binding IsChuNhiem, Mode=OneWay}" Width="90"/>
+                            <DataGridTextColumn Header="Số HS" Binding="{Binding SoHS}" Width="60"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <TextBlock Grid.Row="2" Margin="0,6,0,0" Foreground="#777" FontStyle="Italic"
+                               Text="Chọn 1 hàng → 'Nhập điểm' để chấm điểm cho lớp + môn đó."/>
+                </Grid>
+            </TabItem>
+
+            <!-- ══ Tab 2: Học sinh ══ -->
+            <TabItem Header="👨‍🎓 Học sinh" Loaded="StudentsTab_Loaded">
+                <Grid Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Toolbar -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8">
+                        <TextBlock Text="Chọn lớp:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <ComboBox x:Name="LopFilterCombo" Width="250" Height="30" Margin="0,0,12,0"
+                                  DisplayMemberPath="Display" SelectedValuePath="LopId"
+                                  SelectionChanged="LopFilter_Changed"/>
+                        <Button Content="🔄 Tải" Style="{StaticResource ActionBtn}" Click="LoadStudents_Click"/>
+
+                        <!-- Chỉ hiện khi là GVCN của lớp đang chọn -->
+                        <Button x:Name="BtnAddStudent" Content="➕ Thêm HS" Style="{StaticResource PrimaryBtn}"
+                                IsEnabled="False" Click="AddStudent_Click"
+                                ToolTip="Chỉ giáo viên chủ nhiệm mới được thêm học sinh"/>
+                        <Button x:Name="BtnEditStudent" Content="✏️ Sửa" Style="{StaticResource ActionBtn}"
+                                IsEnabled="False" Click="EditStudent_Click"/>
+                        <Button x:Name="BtnDeleteStudent" Content="🗑️ Xóa" Style="{StaticResource DangerBtn}"
+                                IsEnabled="False" Click="DeleteStudent_Click"/>
+                        <Button x:Name="BtnToggleStudentAccount" Content="🔒 Khóa/Mở TK" Style="{StaticResource ActionBtn}"
+                                Background="#37474f" Foreground="White" IsEnabled="False"
+                                Click="ToggleStudentAccount_Click"/>
+                    </StackPanel>
+
+                    <!-- Thông tin lớp đang xem -->
+                    <Border Grid.Row="1" Padding="8,4" Margin="0,0,0,8" CornerRadius="4"
+                            Background="#e8f5e9">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock x:Name="LopInfoText" Foreground="#2e7d32" FontWeight="SemiBold"/>
+                            <TextBlock x:Name="RoleInfoText" Foreground="#555" Margin="16,0,0,0" FontStyle="Italic"/>
+                        </StackPanel>
+                    </Border>
+
+                    <DataGrid x:Name="StudentsGrid" Grid.Row="2" AutoGenerateColumns="False"
+                              IsReadOnly="True" CanUserAddRows="False" SelectionMode="Single"
+                              AlternatingRowBackground="#e8f5e9">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Mã HS" Binding="{Binding MaHocSinh}" Width="90"/>
+                            <DataGridTextColumn Header="Họ tên" Binding="{Binding HoTen}" Width="200"/>
+                            <DataGridTextColumn Header="Ngày sinh" Binding="{Binding NgaySinh, StringFormat=dd/MM/yyyy}" Width="100"/>
+                            <DataGridTextColumn Header="Giới tính" Binding="{Binding GioiTinh}" Width="70"/>
+                            <DataGridTextColumn Header="SĐT" Binding="{Binding SoDienThoai}" Width="110"/>
+                            <DataGridTextColumn Header="SĐT Cha/Mẹ" Binding="{Binding SdtchaMe}" Width="110"/>
+                            <DataGridTextColumn Header="Trạng thái" Binding="{Binding TrangThai}" Width="110"/>
+                            <DataGridCheckBoxColumn Header="TK hoạt động" Binding="{Binding IsAccountActive, Mode=OneWay}" Width="110"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window>

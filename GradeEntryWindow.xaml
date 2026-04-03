@@ -1,0 +1,57 @@
+<Window x:Class="QuanLyHocSinh.GradeEntryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Nhập điểm" Height="560" Width="1150"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="HeaderText" Grid.Row="0" FontSize="14" FontWeight="Bold"
+                   Foreground="#1a237e" Margin="0,0,0,10"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,8">
+            <Button Content="🔄 Tải danh sách" Height="30" Padding="12,0" Margin="0,0,8,0"
+                    Background="#1a237e" Foreground="White" Click="Load_Click"/>
+            <Button Content="💾 Lưu tất cả" Height="30" Padding="12,0" Margin="0,0,8,0"
+                    Background="#2e7d32" Foreground="White" Click="SaveAll_Click"/>
+            <TextBlock x:Name="StatusText" VerticalAlignment="Center" Foreground="#555" Margin="12,0,0,0"/>
+        </StackPanel>
+
+        <DataGrid x:Name="StudentGrid" Grid.Row="2" AutoGenerateColumns="False"
+                  CanUserAddRows="False" SelectionMode="Single"
+                  AlternatingRowBackground="#f5f5f5">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Mã HS" Binding="{Binding MaHocSinh}" Width="90" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Họ tên" Binding="{Binding HoTen}" Width="180" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Miệng (×1)" Binding="{Binding DiemMieng}" Width="80"/>
+                <DataGridTextColumn Header="15 phút (×1)" Binding="{Binding Diem15Phut}" Width="95"/>
+                <DataGridTextColumn Header="1 tiết (×2)" Binding="{Binding Diem1Tiet}" Width="90"/>
+                <DataGridTextColumn Header="Giữa kỳ (×2)" Binding="{Binding DiemGiuaKy}" Width="100"/>
+                <DataGridTextColumn Header="Cuối kỳ (×4)" Binding="{Binding DiemCuoiKy}" Width="100"/>
+                <DataGridTextColumn Header="TB môn" Binding="{Binding TBMon, StringFormat=N2}" Width="80" IsReadOnly="True">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding DatYeuCau}" Value="False">
+                                    <Setter Property="Foreground" Value="#c62828"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding DatYeuCau}" Value="True">
+                                    <Setter Property="Foreground" Value="#2e7d32"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock x:Name="SummaryText" Grid.Row="3" Margin="0,8,0,0" Foreground="#555"/>
+    </Grid>
+</Window>

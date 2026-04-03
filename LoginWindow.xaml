@@ -1,0 +1,70 @@
+<Window x:Class="QuanLyHocSinh.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Đăng nhập - Hệ thống Quản lý Học sinh"
+        Height="400" Width="420"
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid Margin="0">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#1a237e" Offset="0"/>
+                <GradientStop Color="#283593" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Border Background="White" CornerRadius="12" Margin="30" Padding="30,24">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="🏫 Quản lý Học sinh" FontSize="18" FontWeight="Bold"
+                           Foreground="#1a237e" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+                <TextBlock Text="Tài khoản" Foreground="#555" Margin="0,0,0,4"/>
+                <TextBox x:Name="UsernameTextBox" Height="36" Padding="10,6"
+                         BorderBrush="#90caf9" BorderThickness="1.5" FontSize="13"
+                         KeyDown="Input_KeyDown"/>
+
+                <TextBlock Text="Mật khẩu" Foreground="#555" Margin="0,12,0,4"/>
+                <!-- Toggle-able password row -->
+                <Grid Height="36">
+                    <PasswordBox x:Name="PasswordBox" Padding="10,6"
+                                 BorderBrush="#90caf9" BorderThickness="1.5" FontSize="13"
+                                 KeyDown="Input_KeyDown" VerticalContentAlignment="Center"/>
+                    <TextBox x:Name="PasswordPlain" Padding="10,6"
+                             BorderBrush="#90caf9" BorderThickness="1.5" FontSize="13"
+                             Visibility="Collapsed" VerticalContentAlignment="Center"
+                             KeyDown="Input_KeyDown"/>
+                    <ToggleButton x:Name="ShowPassBtn" Content="👁" Width="32"
+                                  HorizontalAlignment="Right" Background="Transparent"
+                                  BorderThickness="0" Cursor="Hand"
+                                  Checked="ShowPassBtn_Checked" Unchecked="ShowPassBtn_Unchecked"
+                                  ToolTip="Hiện/ẩn mật khẩu"/>
+                </Grid>
+
+                <TextBlock x:Name="ErrorText" Foreground="#c62828" Margin="0,8,0,0"
+                           FontSize="12" TextWrapping="Wrap"/>
+
+                <Button x:Name="LoginBtn" Content="Đăng nhập" Height="38" Margin="0,16,0,0"
+                        Foreground="White" FontWeight="Bold" Cursor="Hand" Click="Login_Click">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="#1a237e"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="8">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#283593"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

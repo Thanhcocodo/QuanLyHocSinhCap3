@@ -1,0 +1,94 @@
+<Window x:Class="QuanLyHocSinh.StudentDetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Thông tin Học sinh" Height="631" Width="520"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="TitleText" Text="Thêm Học sinh" Grid.Row="0"
+                   FontSize="16" FontWeight="Bold" Foreground="#1a237e" Margin="0,0,0,16"/>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Mã HS" VerticalAlignment="Center" Margin="0,0,8,8"/>
+                <TextBox x:Name="MaHocSinhBox" Grid.Column="1" Height="30" Padding="6,4"
+                         Margin="0,0,0,8" IsReadOnly="True" Background="#f5f5f5"/>
+
+                <TextBlock Text="Họ tên *" Grid.Row="1" VerticalAlignment="Center" Margin="0,0,8,8"/>
+                <TextBox x:Name="HoTenBox" Grid.Row="1" Grid.Column="1" Height="30" Padding="6,4" Margin="0,0,0,8"/>
+
+                <TextBlock Text="Ngày sinh *" Grid.Row="2" VerticalAlignment="Center" Margin="0,0,8,8"/>
+                <DatePicker x:Name="NgaySinhPicker" Grid.Row="2" Grid.Column="1" Height="30" Margin="0,0,0,8"/>
+
+                <TextBlock Text="Giới tính" Grid.Row="3" VerticalAlignment="Center" Margin="0,0,8,8"/>
+                <ComboBox x:Name="GioiTinhBox" Grid.Row="3" Grid.Column="1" Height="30" Margin="0,0,0,8">
+                    <ComboBoxItem Content="Nam" IsSelected="True"/>
+                    <ComboBoxItem Content="Nữ"/>
+                    <ComboBoxItem Content="Khác"/>
+                </ComboBox>
+
+                <TextBlock Text="Lớp *" Grid.Row="4" VerticalAlignment="Center" Margin="0,0,8,8"/>
+                <ComboBox x:Name="LopCombo" Grid.Row="4" Grid.Column="1" Height="30" Margin="0,0,0,8"
+                          DisplayMemberPath="Display" SelectedValuePath="LopId"/>
+
+                <TextBlock Text="Ngày nhập học *" Grid.Row="5" VerticalAlignment="Center" Margin="0,0,8,8"/>
+                <DatePicker x:Name="NgayNhapHocPicker" Grid.Row="5" Grid.Column="1" Height="30" Margin="0,0,0,8"/>
+
+                <TextBlock Text="Địa chỉ" Grid.Row="6" VerticalAlignment="Center" Margin="0,0,8,8"/>
+                <TextBox x:Name="DiaChiBox" Grid.Row="6" Grid.Column="1" Height="30" Padding="6,4" Margin="0,0,0,8"/>
+
+                <TextBlock Text="SĐT học sinh" Grid.Row="7" VerticalAlignment="Center" Margin="0,0,8,8"/>
+                <TextBox x:Name="SoDienThoaiBox" Grid.Row="7" Grid.Column="1" Height="30" Padding="6,4" Margin="0,0,0,8"/>
+
+                <TextBlock Text="Email" Grid.Row="8" VerticalAlignment="Center" Margin="0,0,8,8"/>
+                <TextBox x:Name="EmailBox" Grid.Row="8" Grid.Column="1" Height="30" Padding="6,4" Margin="0,0,0,8"/>
+
+                <TextBlock Text="Họ tên Cha" Grid.Row="9" VerticalAlignment="Center" Margin="0,0,8,8"/>
+                <TextBox x:Name="HoTenChaBox" Grid.Row="9" Grid.Column="1" Height="30" Padding="6,4" Margin="0,0,0,8"/>
+
+                <TextBlock Text="Họ tên Mẹ" Grid.Row="10" VerticalAlignment="Center" Margin="0,0,8,8"/>
+                <TextBox x:Name="HoTenMeBox" Grid.Row="10" Grid.Column="1" Height="30" Padding="6,4" Margin="0,0,0,8"/>
+
+                <TextBlock Text="SĐT Cha/Mẹ" Grid.Row="11" VerticalAlignment="Center" Margin="0,0,8,8"/>
+                <TextBox x:Name="SdtChaMeBox" Grid.Row="11" Grid.Column="1" Height="30" Padding="6,4" Margin="0,0,0,8"/>
+
+                <TextBlock Text="Trạng thái" Grid.Row="12" VerticalAlignment="Center" Margin="0,0,8,8"/>
+                <ComboBox x:Name="TrangThaiBox" Grid.Row="12" Grid.Column="1" Height="30" Margin="0,0,0,8">
+                    <ComboBoxItem Content="Đang học" IsSelected="True"/>
+                    <ComboBoxItem Content="Thôi học"/>
+                </ComboBox>
+            </Grid>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <TextBlock x:Name="ErrorText" Foreground="Red" VerticalAlignment="Center" Margin="0,0,12,0"/>
+            <Button Content="Hủy" Width="80" Margin="0,0,8,0" Click="Cancel_Click"/>
+            <Button Content="Lưu" Width="100" Background="#1a237e" Foreground="White" Click="Save_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
